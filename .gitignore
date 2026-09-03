@@ -1,0 +1,15 @@
+target/
+node_modules/
+dist/
+.next/
+test-ledger/
+localnet/.run/
+localnet/.run-outer.log
+.DS_Store
+
+# Program binaries are build outputs — except the vendored localnet stack.
+*.so
+!localnet/elfs/*.so
+
+# Deploy keypair for the program ID; keep it out of the repo.
+keys/

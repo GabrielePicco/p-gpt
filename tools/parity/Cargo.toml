@@ -1,0 +1,11 @@
+[package]
+name = "parity"
+description = "Host-side verification: f64 reference vs fixed-point gpt-core — gradcheck, convergence, determinism"
+version = "0.1.0"
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+publish = false
+
+[dependencies]
+gpt-core = { workspace = true }

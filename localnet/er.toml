@@ -1,0 +1,25 @@
+# The Ephemeral Rollup for local development: clones from the local base
+# layer, writes to delegated accounts, runs the training crank.
+
+lifecycle = "ephemeral"
+remotes = ["http://0.0.0.0:7799", "ws://0.0.0.0:7800"]
+
+[aperture]
+listen = "0.0.0.0:8899"
+
+[commit]
+compute-unit-price = 1_000_000
+
+[accountsdb]
+database-size = 1048576000 # 1GB
+block-size = "block256"
+index-size = 2048576
+max-snapshots = 7
+reset = true
+
+[ledger]
+reset = true
+block-time = "50ms"
+
+[metrics]
+address = "0.0.0.0:9002"

@@ -1,0 +1,36 @@
+[package]
+name = "p-gpt-program"
+description = "p-gpt: perpetual on-chain microGPT training and inference"
+version = "0.1.0"
+authors = { workspace = true }
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+
+[package.metadata.solana]
+program-id = "6wPpJuYKKPbLYfYZpVeytPwxcq7TdGsgEHwyhYBangEC"
+
+[lib]
+crate-type = ["cdylib", "lib"]
+
+[features]
+default = ["logging"]
+logging = []
+test-sbf = []
+
+[dependencies]
+gpt-core = { workspace = true }
+p-gpt-interface = { workspace = true }
+pinocchio = { workspace = true, features = ["cpi", "account-resize"] }
+pinocchio-log = { workspace = true }
+pinocchio-system = { workspace = true, default-features = false }
+ephemeral-rollups-pinocchio = { workspace = true }
+
+[dev-dependencies]
+mollusk-svm = { workspace = true }
+solana-account = { workspace = true }
+solana-instruction = { workspace = true }
+solana-pubkey = { workspace = true }
+
+[lints]
+workspace = true

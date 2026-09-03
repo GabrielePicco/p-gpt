@@ -1,0 +1,18 @@
+{
+  "name": "@p-gpt/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "p-gpt client: drive perpetual on-chain microGPT training on Solana + MagicBlock ER",
+  "scripts": {
+    "cli": "tsx src/cli.ts",
+    "owners": "tsx src/owners.ts"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

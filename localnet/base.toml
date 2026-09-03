@@ -1,0 +1,27 @@
+# Base layer for local development: an ephemeral-validator in `offline`
+# lifecycle stands in for Solana. The delegation stack (dlp, mdp, committor)
+# resolves via read-through from devnet; p-gpt is deployed by run.sh with the
+# solana CLI (config-side program injection is not supported by this build).
+
+lifecycle = "offline"
+remotes = ["devnet"]
+
+[aperture]
+listen = "0.0.0.0:7799"
+
+[commit]
+compute-unit-price = 1_000_000
+
+[accountsdb]
+database-size = 1048576000 # 1GB
+block-size = "block256"
+index-size = 2048576
+max-snapshots = 7
+reset = true
+
+[ledger]
+reset = true
+block-time = "50ms"
+
+[metrics]
+address = "0.0.0.0:9001"
