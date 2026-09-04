@@ -117,9 +117,7 @@ export default function App() {
           <i />
         </div>
         <div className="title">
-          <h1>
-            SOLANA <span>/</span> microGPT
-          </h1>
+          <h1>microGPT</h1>
           <p>A complete GPT — training and inference — inside one Solana program</p>
         </div>
         <div className={`pill-live${training ? "" : " idle"}`}>
