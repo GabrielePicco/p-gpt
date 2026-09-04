@@ -10,9 +10,7 @@ through an on-chain crank — there is no server anywhere — and the model
 checkpoints itself back to the Solana base layer. Every gradient step is a
 transaction; the weights account *is* the tensor.
 
-It is a [pinocchio](https://github.com/anza-xyz/pinocchio) program written in
-[p-token](https://github.com/febo/p-token) style: `no_std`, zero-copy
-`#[repr(C)]` state, one processor file per instruction. The whole thing —
+It is a [pinocchio](https://github.com/anza-xyz/pinocchio) program. The whole thing —
 math core, program, client, rollup integration, dashboard — is about 5K lines.
 
 ## What you're looking at
@@ -132,30 +130,3 @@ cargo build-sbf --manifest-path program/Cargo.toml && cargo test -p p-gpt-progra
                                                          # SBF: lifecycle, on-chain↔host parity,
                                                          # split↔fused parity, guards, CU numbers
 ```
-
-## Things learned the hard way
-
-- **10,240-byte creation/growth cap**: all large accounts are created small and
-  grown by repeated `Grow` calls; delegation buffers for >10KB accounts are
-  pre-created via `DelegatePrep`.
-- **The delegation program cannot commit >10KB accounts on a vanilla runtime**
-  (commit-state creation hits the inner-CPI realloc cap), so checkpoints go
-  through four ~9KB **shards**; the base-layer view reconstructs the model from
-  them. The big working accounts stay delegated — perpetual by design.
-- **Crank ticks can't request compute**: the task scheduler wraps instructions
-  in an `ExecuteTask` with the default budget, hence the micro-op sizing.
-- **pinocchio rent is per-byte-year**: `Rent::try_minimum_balance` ignores the
-  2.0 exemption threshold and under-funds accounts by half (mollusk doesn't
-  enforce the rent check; real validators do). The same bug lives inside
-  `ephemeral-rollups-pinocchio`'s undelegation callback helper, where it makes
-  the delegation program reject every undelegation with
-  `InvalidValidatorBalanceAfterCPI` — this program ships its own callback.
-- **Nested static seed tables miscompile on SBF**; PDA seeds are built at runtime.
-- **SBF stack frames are 4KB** and overflowing one corrupts the caller silently
-  (it showed up as an access violation at address 0 in the *caller*).
-- Generation uses the second half of the scratch account so it can never
-  corrupt an in-flight training step; checkpoints refuse to snapshot mid-Adam.
-
-Program ID: `6wPpJuYKKPbLYfYZpVeytPwxcq7TdGsgEHwyhYBangEC` (the deploy keypair is
-not in the repo; `localnet/payer.json` is MagicBlock's public development
-identity, funded at genesis on both local layers).
